@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 def read_input():
-    with open('./inputs/day04') as f:
-        nums = [int(n) for n in f.readline().strip().split(',')]
+    with open("./inputs/day04") as f:
+        nums = [int(n) for n in f.readline().strip().split(",")]
 
         boards = []
         lines = f.readlines()
         for s in range(0, len(lines), 6):
-            board = [line.strip() for line in lines[s:s + 6]]
+            board = [line.strip() for line in lines[s : s + 6]]
             board = [[int(i) for i in line.split()] for line in board if line]
             boards.append(board)
 
@@ -44,9 +44,26 @@ def part1():
             score = draw(board, num)
             if not score:
                 continue
-            print(f'part 1: {score}')
+            print(f"part 1: {score}")
             return
 
 
-if __name__ == '__main__':
+def part2():
+    nums, boards = read_input()
+    wins = set()
+    for num in nums:
+        for bi, board in enumerate(boards):
+            if bi in wins:
+                continue
+            score = draw(board, num)
+            if not score:
+                continue
+            wins.add(bi)
+            if len(wins) == len(boards):
+                print(f"part 2: {score}")
+                return
+
+
+if __name__ == "__main__":
     part1()
+    part2()
