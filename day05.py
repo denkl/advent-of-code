@@ -13,7 +13,7 @@ class Line:
 
     @property
     def points(self):
-        rng = lambda p1, p2: range(min(p1, p2), max(p1, p2) + 1)
+        rng = lambda p1, p2: range(p1, p2 + (step := 1 if p1 < p2 else -1), step)
         return tuple(
             zip_longest(
                 rng(self.x1, self.x2),
@@ -21,6 +21,17 @@ class Line:
                 fillvalue=self.x1 if self.x1 == self.x2 else self.y1,
             )
         )
+
+
+def test_line():
+    line = Line(1, 3, 1, 5).points
+    assert line == ((1, 3), (1, 4), (1, 5)), line
+
+    line = Line(1, 1, 3, 3).points
+    assert line == ((1, 1), (2, 2), (3, 3)), line
+
+    line = Line(9, 7, 7, 9).points
+    assert line == ((9, 7), (8, 8), (7, 9)), line
 
 
 def read_input():
@@ -31,17 +42,28 @@ def read_input():
         ]
 
 
-def part1():
+def solution(hvonly=True):
     lines = read_input()
-    lines = [l for l in lines if l.x1 == l.x2 or l.y1 == l.y2]
+
+    if hvonly:
+        lines = [l for l in lines if l.x1 == l.x2 or l.y1 == l.y2]
+
     floor = defaultdict(int)
     for line in lines:
         for p in line.points:
             floor[(p[0], p[1])] += 1
 
-    overlaps = len([v for v in floor.values() if v > 1])
-    print(f"part 1: {overlaps}")
+    return len([v for v in floor.values() if v > 1])
+
+
+def part1():
+    print(f"part 1: {solution()}")
+
+
+def part2():
+    print(f"part 2: {solution(hvonly=False)}")
 
 
 if __name__ == "__main__":
     part1()
+    part2()
