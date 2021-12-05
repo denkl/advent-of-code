@@ -23,17 +23,6 @@ class Line:
         )
 
 
-def test_line():
-    line = Line(1, 3, 1, 5).points
-    assert line == ((1, 3), (1, 4), (1, 5)), line
-
-    line = Line(1, 1, 3, 3).points
-    assert line == ((1, 1), (2, 2), (3, 3)), line
-
-    line = Line(9, 7, 7, 9).points
-    assert line == ((9, 7), (8, 8), (7, 9)), line
-
-
 def read_input():
     with open("./inputs/day05") as f:
         return [
