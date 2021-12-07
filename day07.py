@@ -7,18 +7,18 @@ def read_input():
         return [int(i) for i in f.readline().strip().split(",")]
 
 
-def part1():
+def fuel(exp=False):
     crabs = read_input()
     moves = defaultdict(int)
-    positions = range(min(crabs), max(crabs) + 1)
 
     for crab in crabs:
-        for p in positions:
-            moves[p] += abs(p - crab)
-    fuel = min(moves.values())
+        for pos in range(min(crabs), max(crabs) + 1):
+            _fuel = abs(pos - crab)
+            moves[pos] += _fuel if not exp else sum(range(1, _fuel + 1))
 
-    print(f"part 1: {fuel}")
+    return min(moves.values())
 
 
 if __name__ == "__main__":
-    part1()
+    print(f"part 1: {fuel()}")
+    print(f"part 2: {fuel(exp=True)}")
