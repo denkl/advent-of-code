@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-from collections import defaultdict
+from collections import Counter, defaultdict
+from itertools import pairwise
 
 
 def read_input():
@@ -42,7 +43,7 @@ def part1():
         next_node = node
 
     head = node = next_node
-    for step in range(10):
+    for _ in range(10):
         while node.next is not None:
             next_node = node.next
             insert(node, rules[node.pair])
@@ -56,9 +57,34 @@ def part1():
     counter[node.data] += 1
     most = counter[max(counter, key=counter.get)]
     least = counter[min(counter, key=counter.get)]
-
     print(f"part 1: {most - least}")
+
+
+def part2():
+    template, rules = read_input()
+
+    chars = Counter(template)
+    counter = Counter(map("".join, pairwise(template)))
+
+    for _ in range(40):
+        _counter = counter.copy()
+        for pair, count in counter.items():
+            ins = rules[pair]
+            chars[ins] += count
+
+            if _counter[pair] == 0:
+                _counter.pop(pair)
+            else:
+                _counter[pair] -= count
+            _counter["".join((pair[0], ins))] += count
+            _counter["".join((ins, pair[1]))] += count
+        counter = _counter
+
+    most = chars[max(chars, key=chars.get)]
+    least = chars[min(chars, key=chars.get)]
+    print(f"part 2: {most - least}")
 
 
 if __name__ == "__main__":
     part1()
+    part2()
