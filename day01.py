@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 from collections import defaultdict
-import heapq
 
 
 def read_input():
