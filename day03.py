@@ -7,6 +7,13 @@ def read_input():
         return f.readlines()
 
 
+def read_grouped():
+    lines = read_input()
+    for i, _ in enumerate(lines, 1):
+        if i % 3 == 0:
+            yield lines[i-3:i]
+
+
 priority = {l: i for i, l in enumerate(string.ascii_letters, 1)}
 
 
@@ -20,5 +27,15 @@ def part1():
     print(f'part 1: {total}')
 
 
+def part2():
+    total = 0
+    for group in read_grouped():
+        first, second, third = (set(l.strip()) for l in group)
+        common = first & second & third
+        total += priority[next(iter(common))]
+    print(f'part 2: {total}')
+
+
 if __name__ == '__main__':
     part1()
+    part2()
