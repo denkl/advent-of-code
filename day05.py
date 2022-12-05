@@ -49,5 +49,17 @@ def part1():
     print(f'part 1: {message}')
 
 
+def part2():
+    stacks, steps = stacks_and_steps()
+    for step in steps:
+        to_move = []
+        for _ in range(step.qty):
+            to_move.append(stacks[step.from_].pop())
+        stacks[step.to].extend(reversed(to_move))
+    message = ''.join((s[-1] for s in stacks))
+    print(f'part 2: {message}')
+
+
 if __name__ == '__main__':
     part1()
+    part2()
