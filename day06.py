@@ -4,15 +4,23 @@ def read_input():
         return f.readline().strip()
 
 
-def part1():
+def find_marker(length):
     stream = list(read_input())
-    marker = 0
-    for i, _ in enumerate(stream, 3):
-        if len(set(stream[i-4:i])) == 4:
-            marker = i
-            break
+    for i, _ in enumerate(stream, length-1):
+        if len(set(stream[i-length:i])) == length:
+            return i
+
+
+def part1():
+    marker = find_marker(4)
     print(f'part 1: {marker}')
+
+
+def part2():
+    marker = find_marker(14)
+    print(f'part 2: {marker}')
 
 
 if __name__ == '__main__':
     part1()
+    part2()
