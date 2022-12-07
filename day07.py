@@ -11,12 +11,11 @@ def read_input():
 def dirs_table():
     ftable, dtable = defaultdict(int), defaultdict(int)
     cwd = Path('/')
+    dtable[cwd]
 
     for line in read_input():
         if line.startswith('$ cd'):
             target = line.split()[-1]
-            if target == '/':
-                continue
             if target == '..':
                 cwd = cwd.parent
             else:
@@ -45,13 +44,18 @@ def dirs_table():
 
 
 def part1():
-    total = 0
-    for size in dirs_table().values():
-        if size <= 100000:
-            total += size
+    total = sum((s for s in dirs_table().values() if s <= 100000))
     print(f'part 1: {total}')
+
+
+def part2():
+    dtable = dirs_table()
+    to_free = 30000000 - (70000000 - dtable[Path('/')])
+    smallest = min((s for s in dtable.values() if s >= to_free))
+    print(f'part 2: {smallest}')
 
 
 if __name__ == '__main__':
     part1()
+    part2()
 
