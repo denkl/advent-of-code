@@ -77,7 +77,7 @@ def part1():
 
 
 def part2():
-    print(f'part 1: {scenic()}')
+    print(f'part 2: {scenic()}')
 
 
 if __name__ == '__main__':
