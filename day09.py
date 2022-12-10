@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import itertools
 from dataclasses import dataclass
 
 
@@ -24,15 +25,22 @@ def move_head(head, move):
         head.x -= 1
 
 
+
 def move_tail(tail, head):
     if abs(head.x - tail.x) > 1:
         tail.x = (head.x + tail.x) // 2
         if head.x != tail.x:
-            tail.y = head.y
+            if abs(head.y - tail.y) > 1:
+                tail.y = (head.y + tail.y) // 2
+            else:
+                tail.y = head.y
     if abs(head.y - tail.y) > 1:
         tail.y = (head.y + tail.y) // 2
         if head.y != tail.y:
-            tail.x = head.x
+            if abs(head.x - tail.x) > 1:
+                tail.x = (head.x + tail.x) // 2
+            else:
+                tail.x = head.x
 
 
 def part1():
@@ -53,5 +61,26 @@ def part1():
     print(f'part 1: {len(visited)}')
 
 
+def part2():
+    knots = [Knot(0, 0) for _ in range(10)]
+    visited = {(0, 0)}
+
+    for motion in read_input():
+        move, steps = motion.split()
+        steps = int(steps)
+
+        while steps:
+            for head, tail in itertools.pairwise(knots):
+                if head is knots[0]:
+                    move_head(head, move)
+                move_tail(tail, head)
+            visited.add((tail.x, tail.y))
+
+            steps -= 1
+
+    print(f'part 2: {len(visited)}')
+
+
 if __name__ == '__main__':
     part1()
+    part2()
